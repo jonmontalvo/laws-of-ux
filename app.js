@@ -13,9 +13,8 @@
   /* ---------------------------------------------------------------
      Rendering
      --------------------------------------------------------------- */
-  const navList = document.getElementById("law-nav");
   const overview = document.getElementById("overview");
-  const lawsRoot = document.getElementById("laws");
+  const lawsRoot = document.getElementById("laws"); // only present on law.html
   const template = document.getElementById("law-template");
 
   const el = (tag, attrs = {}, children = []) => {
@@ -35,33 +34,52 @@
   const ARROW_ICON =
     '<svg class="resource__arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 11.5 11.5 4.5M6 4.5h5.5V10"/></svg>';
 
+  const lawUrl = (law) => `law.html?law=${encodeURIComponent(law.id)}`;
+
+  // law.html shows the law named in the query string; index.html shows none.
+  const currentId = new URLSearchParams(window.location.search).get("law");
+  const current = lawsRoot ? LAWS.find((law) => law.id === currentId) : undefined;
+
+  // Cards: every law except the one being read
   LAWS.forEach((law, i) => {
-    const number = pad(i + 1);
-
-    // Sticky nav chip
-    navList.append(
-      el("li", {}, [
-        el("a", { class: "law-nav__link", href: `#${law.id}`, style: `--law-color:${law.color}`, "data-law": law.id }, [
-          el("span", { class: "law-nav__dot", "aria-hidden": "true" }),
-          el("span", { text: law.name })
-        ])
-      ])
-    );
-
-    // Overview tile
+    if (law === current) return;
     overview.append(
       el("li", {}, [
-        el("a", { class: "overview__link", href: `#${law.id}`, style: `--tile:${law.color};--hi:${law.hi}` }, [
+        el("a", { class: "overview__link", href: lawUrl(law), style: `--tile:${law.color};--hi:${law.hi}` }, [
           el("div", { class: "overview__tile", html: law.svg }),
           el("div", { class: "overview__body" }, [
-            el("span", { class: "overview__num", text: number }),
+            el("span", { class: "overview__num", text: pad(i + 1) }),
             el("span", { class: "overview__name", text: law.name })
           ])
         ])
       ])
     );
+  });
 
-    // Full section
+  if (!lawsRoot) return;
+
+  const toggle = document.getElementById("motion-toggle");
+
+  if (!current) {
+    // Missing or unknown ?law= value: say so and leave the full card grid below.
+    document.title = "Law not found — Laws of UX";
+    toggle.hidden = true;
+    lawsRoot.append(
+      el("section", { class: "hero" }, [
+        el("p", { class: "eyebrow", text: "Law not found" }),
+        el("h1", { text: "That law isn't here" }),
+        el("p", { class: "hero__lede", text: "The link may be out of date. Pick one of the sixteen laws below." })
+      ])
+    );
+    return;
+  }
+
+  // Detail view for the current law
+  {
+    const law = current;
+    const number = pad(LAWS.indexOf(law) + 1);
+    document.title = `${law.name} — Laws of UX`;
+
     const fragment = template.content.cloneNode(true);
     const article = fragment.querySelector(".law");
     article.id = law.id;
@@ -97,34 +115,13 @@
     replay.setAttribute("aria-label", `Replay the ${law.name} animation`);
 
     lawsRoot.append(fragment);
-  });
+  }
 
-  /* ---------------------------------------------------------------
-     Active nav chip (IntersectionObserver, no GSAP needed)
-     --------------------------------------------------------------- */
-  const navLinks = new Map([...navList.querySelectorAll(".law-nav__link")].map((a) => [a.dataset.law, a]));
   const sections = [...lawsRoot.querySelectorAll(".law")];
-
-  const navObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        const link = navLinks.get(entry.target.id);
-        if (!link) return;
-        link.classList.toggle("is-active", entry.isIntersecting);
-        if (entry.isIntersecting) {
-          const left = link.offsetLeft - navList.clientWidth / 2 + link.offsetWidth / 2;
-          navList.scrollTo({ left, behavior: reducedMotionQuery.matches ? "auto" : "smooth" });
-        }
-      });
-    },
-    { rootMargin: "-45% 0px -50% 0px", threshold: 0 }
-  );
-  sections.forEach((s) => navObserver.observe(s));
 
   /* ---------------------------------------------------------------
      Motion state
      --------------------------------------------------------------- */
-  const toggle = document.getElementById("motion-toggle");
   const toggleLabel = toggle.querySelector(".motion-toggle__label");
 
   const stored = localStorage.getItem(STORAGE_KEY);

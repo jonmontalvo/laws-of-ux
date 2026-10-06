@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laws of UX</title>
+  <meta name="description" content="One law of UX in detail: what it means, how to apply it, an animated SVG demonstration, and further reading.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="index.html" aria-label="Laws of UX, home">
+        <span class="brand__mark" aria-hidden="true"></span>
+        <span>Laws of UX</span>
+      </a>
+      <div class="site-header__actions">
+        <a class="back-link" href="index.html">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M9.5 3.5 5 8l4.5 4.5"/></svg>
+          All laws
+        </a>
+        <button class="motion-toggle" id="motion-toggle" type="button" aria-pressed="false">
+          <svg class="motion-toggle__icon motion-toggle__icon--pause" viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="2" width="3.5" height="12" rx="1"/><rect x="9.5" y="2" width="3.5" height="12" rx="1"/></svg>
+          <svg class="motion-toggle__icon motion-toggle__icon--play" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg>
+          <span class="motion-toggle__label">Pause motion</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <div id="laws"></div>
+
+    <section class="more" aria-labelledby="more-title">
+      <div class="more__inner">
+        <p class="eyebrow">Keep exploring</p>
+        <h2 class="more__title" id="more-title">More laws of UX</h2>
+        <ul class="overview" id="overview" aria-label="Other laws of UX"></ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      Built with plain HTML, CSS and JavaScript. Animations use
+      <a href="https://gsap.com/" rel="noopener">GSAP</a>. Law summaries follow the wording popularised by
+      <a href="https://lawsofux.com/" rel="noopener">Laws of UX</a> by Jon Yablonski; the research citations link to the original sources.
+    </p>
+  </footer>
+
+  <template id="law-template">
+    <article class="law">
+      <div class="law__inner">
+        <figure class="law__figure">
+          <div class="tile">
+            <div class="tile__svg"></div>
+          </div>
+          <figcaption class="law__caption">
+            <span class="law__caption-text"></span>
+            <button class="replay" type="button">
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3a5 5 0 1 0 4.9 6h-1.6A3.5 3.5 0 1 1 8 4.5V7l3.5-3L8 1z"/></svg>
+              Replay
+            </button>
+          </figcaption>
+        </figure>
+
+        <div class="law__content">
+          <p class="law__index"></p>
+          <h1 class="law__title"></h1>
+          <p class="law__tagline"></p>
+          <div class="law__description"></div>
+
+          <h2 class="law__subhead">When applying it</h2>
+          <ul class="law__list law__list--considerations"></ul>
+
+          <h2 class="law__subhead">Go deeper</h2>
+          <ul class="law__list law__list--resources"></ul>
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+  <script src="data.js" defer></script>
+  <script src="app.js" defer></script>
+</body>
+</html>

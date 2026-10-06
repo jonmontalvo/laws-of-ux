@@ -15,34 +15,23 @@
 
   <header class="site-header">
     <div class="site-header__inner">
-      <a class="brand" href="#top" aria-label="Laws of UX, back to top">
+      <a class="brand" href="index.html" aria-label="Laws of UX, home">
         <span class="brand__mark" aria-hidden="true"></span>
         <span>Laws of UX</span>
       </a>
-      <nav class="law-nav" aria-label="Jump to a law">
-        <ul class="law-nav__list" id="law-nav"></ul>
-      </nav>
-      <button class="motion-toggle" id="motion-toggle" type="button" aria-pressed="false">
-        <svg class="motion-toggle__icon motion-toggle__icon--pause" viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="2" width="3.5" height="12" rx="1"/><rect x="9.5" y="2" width="3.5" height="12" rx="1"/></svg>
-        <svg class="motion-toggle__icon motion-toggle__icon--play" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg>
-        <span class="motion-toggle__label">Pause motion</span>
-      </button>
     </div>
   </header>
 
   <main id="main" tabindex="-1">
-    <section class="hero" id="top" aria-labelledby="hero-title">
+    <section class="hero" aria-labelledby="hero-title">
       <p class="eyebrow">Sixteen principles from psychology, applied to interfaces</p>
       <h1 id="hero-title">Laws of UX</h1>
       <p class="hero__lede">
-        Each law below gets a plain-language explanation, a short list of things to weigh when you apply it,
-        an animated demonstration built with SVG and GSAP, and a handful of trustworthy places to read more.
-        Pick a tile to jump straight to a law.
+        Pick a card to open a law. Each one gets a plain-language explanation, a short list of things to weigh
+        when you apply it, an animated demonstration, and a handful of trustworthy places to read more.
       </p>
       <ul class="overview" id="overview" aria-label="All sixteen laws"></ul>
     </section>
-
-    <div id="laws"></div>
   </main>
 
   <footer class="site-footer">
@@ -53,39 +42,6 @@
     </p>
   </footer>
 
-  <template id="law-template">
-    <article class="law">
-      <div class="law__inner">
-        <figure class="law__figure">
-          <div class="tile">
-            <div class="tile__svg"></div>
-          </div>
-          <figcaption class="law__caption">
-            <span class="law__caption-text"></span>
-            <button class="replay" type="button">
-              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3a5 5 0 1 0 4.9 6h-1.6A3.5 3.5 0 1 1 8 4.5V7l3.5-3L8 1z"/></svg>
-              Replay
-            </button>
-          </figcaption>
-        </figure>
-
-        <div class="law__content">
-          <p class="law__index"></p>
-          <h2 class="law__title"></h2>
-          <p class="law__tagline"></p>
-          <div class="law__description"></div>
-
-          <h3 class="law__subhead">When applying it</h3>
-          <ul class="law__list law__list--considerations"></ul>
-
-          <h3 class="law__subhead">Go deeper</h3>
-          <ul class="law__list law__list--resources"></ul>
-        </div>
-      </div>
-    </article>
-  </template>
-
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
   <script src="data.js" defer></script>
   <script src="app.js" defer></script>
 </body>
